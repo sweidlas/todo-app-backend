@@ -1,0 +1,123 @@
+type Query {
+  todos: [Todo!]!
+  todoById(id: ID!): Todo
+  todosByCompleted(completed: Boolean!): [Todo!]!
+
+  user: User
+  userSettings: UserSettings
+
+  calendarEvents: [CalendarEvent!]!
+  calendarEventById(id: ID!): CalendarEvent
+}
+
+type Mutation {
+  createTodo(input: CreateTodoInput!): Todo!
+  updateTodo(input: UpdateTodoInput!): Todo!
+  deleteTodo(id: ID!): ID!
+
+  createCalendarEvent(input: CreateCalendarEventInput!): CalendarEvent!
+  updateCalendarEvent(input: UpdateCalendarEventInput!): CalendarEvent!
+  deleteCalendarEvent(id: ID!): ID!
+
+  updateUserEmail(input: UpdateUserEmailInput!): User
+  updateUserPassword(input: UpdateUserPasswordInput!): User
+}
+
+scalar DateTime
+
+type Todo {
+  id: ID!
+  title: String!
+  description: String
+  completed: Boolean!
+  priority: Priority
+  due: DateTime
+  color: String
+  created: DateTime
+  updated: DateTime
+}
+
+input CreateTodoInput {
+  title: String!
+  description: String
+  completed: Boolean = false
+  priority: Priority = MEDIUM
+  due: DateTime
+  color: String
+}
+
+input UpdateTodoInput {
+  id: ID!
+  title: String
+  description: String
+  completed: Boolean
+  priority: Priority
+  due: DateTime
+  color: String
+}
+
+input UpdateUserEmailInput {
+  email: String!
+}
+
+input UpdateUserPasswordInput {
+  oldPassword: String!
+  newPassword: String!
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  createdAt: String!
+  userSettings: UserSettings
+}
+
+input CreateUserInput {
+  username: String!
+  password: String!
+  email: String!
+}
+
+type CalendarEvent {
+  id: ID!
+  title: String!
+  start: DateTime!
+  end: DateTime!
+  color: String
+  description: String
+  location: String
+  created: DateTime
+  updated: DateTime
+}
+
+input CreateCalendarEventInput {
+  title: String!
+  start: DateTime!
+  end: DateTime!
+  color: String
+  description: String
+  location: String
+}
+
+input UpdateCalendarEventInput {
+  id: ID!
+  title: String
+  start: DateTime
+  end: DateTime
+  color: String
+  description: String
+  location: String
+}
+
+type UserSettings {
+  id: ID!
+  userId: String!
+  showAnimations: Boolean!
+}

@@ -1,0 +1,25 @@
+package com.example.graphqlserver.exceptions;
+
+public enum ErrorCode {
+    USER_EMAIL_EXISTS("USER_EMAIL_EXISTS"),
+    USER_NAME_EXISTS("USER_NAME_EXISTS"),
+    INVALID_PASSWORD("INVALID_PASSWORD"),
+    INVALID_VERIFICATION_CODE("INVALID_VERIFICATION_CODE"),
+    VERIFICATION_CODE_EXPIRED("VERIFICATION_CODE_EXPIRED"),
+    USER_NOT_FOUND("USER_NOT_FOUND"),
+    ACCOUNT_ALREADY_VERIFIED("ACCOUNT_ALREADY_VERIFIED"),
+    ACCOUNT_NOT_VERIFIED("ACCOUNT_NOT_VERIFIED"),
+    INVALID_CREDENTIALS("INVALID_CREDENTIALS"),
+    INVALID_TOKEN("INVALID_TOKEN"),
+    NO_EMAIL_TO_VERIFY("NO_EMAIL_TO_VERIFY");
+
+    private final String code;
+
+    ErrorCode(String code) {
+        this.code = code;
+    }
+
+    public String getCode() {
+        return code;
+    }
+}

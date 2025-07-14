@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('/graphql', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: `
+                            mutation Login($username: String!, $password: String!) {
+                                login(username: $username, password: $password) {
+                                    token
+                                    user {
+                                        id
+                                        username
+                                    }
+                                }
+                            }
+                        `,
+                        variables: { username, password }
+                    })
+                });
+                
+                const data = await response.json();
+                console.log("test");
+                console.log("data", data);
+                if (data.data && data.data.login) {
+                    // Store token
+                    var token = data.data.login.token
+                    console.log("token", token);
+                    
+                    localStorage.setItem('token', data.data.login.token);
+                    
+                    // Redirect to GraphiQL with token
+                    window.location.href = '/graphiql2';
+                } else {
+                    alert('Login failed');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
